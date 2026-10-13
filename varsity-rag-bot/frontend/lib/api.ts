@@ -92,7 +92,10 @@ export class ApiError extends Error {
 }
 
 function apiBaseUrl(): string {
-  return process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1";
+  const backendUrl = process.env.BACKEND_URL?.replace(/\/+$/, "");
+  return backendUrl
+    ? `${backendUrl}/api/v1`
+    : process.env.NEXT_PUBLIC_API_URL ?? "/api/v1";
 }
 
 async function responseError(response: Response): Promise<ApiError> {

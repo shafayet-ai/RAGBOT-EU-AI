@@ -83,7 +83,7 @@ const COPY = {
     citation: "View source",
     empty: "Start with a question about admissions, programs, or CSE.",
     connection:
-      "Could not reach the assistant API. Make sure the backend is running at localhost:8000.",
+      "Could not reach the assistant API. Please try again later.",
     confidence: "Evidence confidence",
     footer: "EU-AI can make mistakes. Check official sources for important decisions.",
     menu: "Open navigation",
@@ -129,7 +129,7 @@ const COPY = {
     citation: "নথি দেখুন",
     empty: "ভর্তি, প্রোগ্রাম বা CSE সম্পর্কে প্রশ্ন দিয়ে শুরু করুন।",
     connection:
-      "সহকারী API-তে সংযোগ করা যায়নি। localhost:8000-এ backend চালু আছে কি না দেখুন।",
+      "সহকারী API-তে সংযোগ করা যায়নি। অনুগ্রহ করে পরে আবার চেষ্টা করুন।",
     confidence: "তথ্যের নির্ভরযোগ্যতা",
     footer: "EU-AI ভুল করতে পারে। গুরুত্বপূর্ণ বিষয়ে অফিসিয়াল সূত্র যাচাই করুন।",
     menu: "নেভিগেশন খুলুন",
