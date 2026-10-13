@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-ink: #111827;
+  --color-muted: #657085;
+  --color-canvas: #f5f7fa;
+  --color-brand: #145c48;
+  --shadow-panel: 0 16px 55px rgba(16, 24, 40, 0.08);
+}
+
+:root {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-ink: #e7eee9;
+  --color-muted: #a2b2a8;
+  --color-canvas: #101814;
+  --color-brand: #71cba2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--color-canvas);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--color-ink);
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  color: #103f34;
+  background: #d3eee5;
+}
+
+.soft-grid {
+  background-image: radial-gradient(#cbd5e1 0.65px, transparent 0.65px);
+  background-size: 17px 17px;
+}
+
+.scrollbar-subtle {
+  scrollbar-color: #cbd5e1 transparent;
+  scrollbar-width: thin;
+}
+
+.scrollbar-subtle::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-subtle::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #cbd5e1;
+}
+
+[data-theme="dark"] .soft-grid {
+  background-image: radial-gradient(#46564d 0.65px, transparent 0.65px);
+}
+
+[data-theme="dark"] .bg-canvas {
+  background-color: #101814;
+}
+
+[data-theme="dark"] .text-ink {
+  color: #e7eee9;
+}
+
+[data-theme="dark"] .text-muted {
+  color: #a2b2a8;
+}
+
+[data-theme="dark"] .text-brand {
+  color: #71cba2;
+}
+
+[data-theme="dark"] .bg-brand {
+  background-color: #24684f;
+}
+
+[data-theme="dark"] [class*="hover:bg-emerald-900"]:hover {
+  background-color: #18523d;
+}
+
+[data-theme="dark"] [class~="bg-white"],
+[data-theme="dark"] [class*="bg-white/"] {
+  background-color: #19241e;
+}
+
+[data-theme="dark"] [class*="bg-slate-50"],
+[data-theme="dark"] [class*="bg-slate-100"] {
+  background-color: #202d26;
+}
+
+[data-theme="dark"] [class*="bg-emerald-50"] {
+  background-color: #20392d;
+}
+
+[data-theme="dark"] [class*="border-slate-100"],
+[data-theme="dark"] [class*="border-slate-200"] {
+  border-color: #344239;
+}
+
+[data-theme="dark"] [class*="border-emerald-100"] {
+  border-color: #30493a;
+}
+
+[data-theme="dark"] [class*="text-slate-700"],
+[data-theme="dark"] [class*="text-slate-600"] {
+  color: #c3d0c7;
+}
+
+[data-theme="dark"] [class*="text-slate-500"],
+[data-theme="dark"] [class*="text-slate-400"] {
+  color: #91a197;
+}
+
+[data-theme="dark"] [class*="bg-[#e4f2eb]"] {
+  background-color: #20392d;
+}
+
+[data-theme="dark"] [class*="hover:bg-slate-50"]:hover,
+[data-theme="dark"] [class*="hover:bg-slate-100"]:hover {
+  background-color: #26362d;
+}
+
+[data-theme="dark"] .scrollbar-subtle {
+  scrollbar-color: #46564d transparent;
+}
+
+[data-theme="dark"] .scrollbar-subtle::-webkit-scrollbar-thumb {
+  background: #46564d;
+}
