@@ -2,7 +2,9 @@
 
 Next.js frontend and FastAPI adapter for the Eastern University RAG assistant.
 The FastAPI and Streamlit frontends share a Groq chat model, local multilingual
-Hugging Face embeddings, and a Chroma vector index.
+Hugging Face embeddings, and a Chroma vector index. The multilingual embedding
+model loads in half precision to reduce query-time memory use on Render's free
+instance.
 
 ## Free deployment on Vercel and Render
 

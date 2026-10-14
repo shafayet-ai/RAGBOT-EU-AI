@@ -27,13 +27,7 @@ class IngestionPipelineTests(unittest.TestCase):
             )
 
             class FakeEmbeddings:
-                def __init__(
-                    self,
-                    model_name: str,
-                    model_kwargs: dict[str, str],
-                    encode_kwargs: dict[str, bool],
-                ) -> None:
-                    self.model_name = model_name
+                pass
 
             class FakeVectorStore:
                 stores: dict[str, dict[str, Document]] = {}
@@ -85,7 +79,9 @@ class IngestionPipelineTests(unittest.TestCase):
                 patch.object(ingest, "DOCUMENTS_DIR", documents_directory),
                 patch.object(ingest, "SCRAPED_DOCUMENTS_DIR", scraped_directory),
                 patch.object(ingest, "UPLOADED_DOCUMENTS_DIR", uploaded_directory),
-                patch.object(ingest, "HuggingFaceEmbeddings", FakeEmbeddings),
+                patch.object(
+                    ingest, "load_embeddings", return_value=FakeEmbeddings()
+                ),
                 patch.object(ingest, "Chroma", FakeVectorStore),
             ):
                 first_index = ingest.process_documents()

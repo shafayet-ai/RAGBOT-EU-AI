@@ -27,10 +27,13 @@ load_dotenv(PROJECT_DIR / ".env")
 
 
 @lru_cache(maxsize=1)
-def _load_embeddings() -> HuggingFaceEmbeddings:
+def load_embeddings() -> HuggingFaceEmbeddings:
     return HuggingFaceEmbeddings(
         model_name=EMBEDDING_MODEL_NAME,
-        model_kwargs={"device": "cpu"},
+        model_kwargs={
+            "device": "cpu",
+            "model_kwargs": {"torch_dtype": "float16"},
+        },
         encode_kwargs={"normalize_embeddings": True},
     )
 
@@ -39,7 +42,7 @@ def _load_embeddings() -> HuggingFaceEmbeddings:
 def load_rag_chain(answer_language: str):
     vectorstore = Chroma(
         persist_directory=str(VECTORSTORE_DIRECTORY),
-        embedding_function=_load_embeddings(),
+        embedding_function=load_embeddings(),
         collection_name="university_docs",
     )
     retriever = vectorstore.as_retriever(search_kwargs={"k": 4})

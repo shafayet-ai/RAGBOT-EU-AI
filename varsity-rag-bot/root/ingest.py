@@ -30,13 +30,12 @@ def _import_symbol(module_name: str, symbol_name: str):
 PyPDFDirectoryLoader = _import_symbol("langchain_community.document_loaders", "PyPDFDirectoryLoader")
 TextLoader = _import_symbol("langchain_community.document_loaders", "TextLoader")
 RecursiveCharacterTextSplitter = _import_symbol("langchain_text_splitters", "RecursiveCharacterTextSplitter")
-HuggingFaceEmbeddings = _import_symbol("langchain_huggingface", "HuggingFaceEmbeddings")
 Chroma = _import_symbol("langchain_chroma", "Chroma")
 
 if __package__:
-    from .rag_core import EMBEDDING_MODEL_NAME
+    from .rag_core import load_embeddings
 else:
-    from rag_core import EMBEDDING_MODEL_NAME
+    from rag_core import load_embeddings
 
 PROJECT_DIR = Path(__file__).resolve().parent
 logger = logging.getLogger(__name__)
@@ -123,11 +122,7 @@ def process_documents():
     )
     chunks = text_splitter.split_documents(raw_documents)
     logger.info("Updating the Chroma vector index")
-    embeddings = HuggingFaceEmbeddings(
-        model_name=EMBEDDING_MODEL_NAME,
-        model_kwargs={"device": "cpu"},
-        encode_kwargs={"normalize_embeddings": True},
-    )
+    embeddings = load_embeddings()
     vectorstore = Chroma(
         persist_directory=str(PROJECT_DIR / "chroma_db_huggingface"),
         embedding_function=embeddings,
