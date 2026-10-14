@@ -1,14 +1,8 @@
-databases:
-  - name: eu-ai-db
-    databaseName: eu_ai
-    user: eu_ai
-    plan: basic-256mb
-
 services:
   - type: web
     name: eu-ai-api
     runtime: python
-    plan: standard
+    plan: free
     rootDir: varsity-rag-bot
     buildCommand: pip install -r backend/requirements.txt
     startCommand: python -m alembic -c backend/alembic.ini upgrade head && uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
@@ -17,24 +11,8 @@ services:
       - key: PYTHON_VERSION
         value: 3.12.8
       - key: DATABASE_URL
-        fromDatabase:
-          name: eu-ai-db
-          property: connectionString
+        value: sqlite+aiosqlite:////tmp/eu_ai.db
       - key: SECRET_KEY
         generateValue: true
       - key: GROQ_API_KEY
         sync: false
-
-  - type: web
-    name: eu-ai-frontend
-    runtime: node
-    plan: starter
-    rootDir: varsity-rag-bot/frontend
-    buildCommand: npm ci && npm run build
-    startCommand: npm start -- --hostname 0.0.0.0 --port $PORT
-    envVars:
-      - key: BACKEND_HOST
-        fromService:
-          type: web
-          name: eu-ai-api
-          property: host

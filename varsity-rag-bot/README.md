@@ -4,28 +4,23 @@ Next.js frontend and FastAPI adapter for the Eastern University RAG assistant.
 The FastAPI and Streamlit frontends share a Groq chat model, local multilingual
 Hugging Face embeddings, and a Chroma vector index.
 
-## Deploy on Render
+## Free deployment on Vercel and Render
 
-The repository-root `render.yaml` deploys the Next.js frontend, FastAPI API,
-and a managed PostgreSQL database as one Render Blueprint. In the Render
-Dashboard, create a Blueprint instance for this GitHub repository and provide
-the `GROQ_API_KEY` secret when prompted. The API runs database migrations
-before starting, and the frontend proxies `/api/*` requests to the API.
-The Blueprint uses paid Render plans for the API, frontend, and database.
+Deploy the Next.js frontend to Vercel with the project root set to
+`varsity-rag-bot/frontend`. Set `BACKEND_URL` in the Vercel project to the
+public URL of the API service (for example, `https://eu-ai-api.onrender.com`).
+The frontend proxies `/api/*` requests to this service.
 
-After the first deployment, create the initial administrator from the API
-service's Shell using a unique email and student ID:
+Deploy the FastAPI service from the repository-root `render.yaml` as a Render
+Blueprint, and provide the `GROQ_API_KEY` secret when prompted. The free API
+service uses temporary SQLite storage instead of managed PostgreSQL.
 
-```sh
-python -m backend.app.cli --email admin@example.edu --full-name "EU Administrator" --student-id EU-ADMIN-001
-```
-
-The Chroma index already tracked under `root/chroma_db_huggingface/` is
-available to the API at deploy time. Render's service filesystem is
-ephemeral, so documents uploaded through the admin panel and index changes
-made after deployment are not durable across service restarts or deploys.
-Use persistent storage before relying on uploaded documents or admin
-re-indexing in production.
+Render's free service may sleep when idle, has limited memory, and has an
+ephemeral filesystem. User accounts, chat history, uploaded documents, and
+admin index changes can be lost on restart or redeploy. The checked-in Chroma
+index is available after each deployment; uploaded files and re-indexing
+changes are not durable. The initial administrator must be created again if
+the SQLite database is reset.
 
 ## Run locally on Windows
 
