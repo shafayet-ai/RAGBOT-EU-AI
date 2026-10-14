@@ -4,6 +4,29 @@ Next.js frontend and FastAPI adapter for the Eastern University RAG assistant.
 The FastAPI and Streamlit frontends share a Groq chat model, local multilingual
 Hugging Face embeddings, and a Chroma vector index.
 
+## Deploy on Render
+
+The repository-root `render.yaml` deploys the Next.js frontend, FastAPI API,
+and a managed PostgreSQL database as one Render Blueprint. In the Render
+Dashboard, create a Blueprint instance for this GitHub repository and provide
+the `GROQ_API_KEY` secret when prompted. The API runs database migrations
+before starting, and the frontend proxies `/api/*` requests to the API.
+The Blueprint uses paid Render plans for the API, frontend, and database.
+
+After the first deployment, create the initial administrator from the API
+service's Shell using a unique email and student ID:
+
+```sh
+python -m backend.app.cli --email admin@example.edu --full-name "EU Administrator" --student-id EU-ADMIN-001
+```
+
+The Chroma index already tracked under `root/chroma_db_huggingface/` is
+available to the API at deploy time. Render's service filesystem is
+ephemeral, so documents uploaded through the admin panel and index changes
+made after deployment are not durable across service restarts or deploys.
+Use persistent storage before relying on uploaded documents or admin
+re-indexing in production.
+
 ## Run locally on Windows
 
 Install the API dependencies from the project folder:

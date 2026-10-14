@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from pydantic import SecretStr
+from pydantic import SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -15,6 +15,16 @@ class Settings(BaseSettings):
     secret_key: SecretStr | None = None
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 30
+
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def use_asyncpg_for_postgres(cls, value: str | None) -> str | None:
+        if isinstance(value, str):
+            if value.startswith("postgres://"):
+                return "postgresql+asyncpg://" + value.removeprefix("postgres://")
+            if value.startswith("postgresql://"):
+                return "postgresql+asyncpg://" + value.removeprefix("postgresql://")
+        return value
 
 
 @lru_cache

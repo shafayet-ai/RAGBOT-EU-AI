@@ -4,7 +4,7 @@ const nextConfig = {
   agentRules: false,
   async rewrites() {
     const backendUrl = process.env.BACKEND_URL?.replace(/\/+$/, "");
-    if (process.env.NODE_ENV !== "development" || !backendUrl) return [];
+    if (!backendUrl) return [];
 
     return [
       {

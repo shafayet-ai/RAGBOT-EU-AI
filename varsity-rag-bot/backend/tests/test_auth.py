@@ -14,9 +14,25 @@ from jose import jwt
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
+from backend.app.core.config import Settings
 from backend.app.core.database import get_db
 from backend.app.main import app
 from backend.app.models import Base, ChatLog, User, UserRole
+
+
+class SettingsTests(unittest.TestCase):
+    def test_render_postgres_url_uses_asyncpg_driver(self) -> None:
+        for database_url in (
+            "postgres://user:password@host:5432/eu_ai",
+            "postgresql://user:password@host:5432/eu_ai",
+        ):
+            with self.subTest(database_url=database_url):
+                settings = Settings(database_url=database_url)
+
+                self.assertEqual(
+                    settings.database_url,
+                    "postgresql+asyncpg://user:password@host:5432/eu_ai",
+                )
 
 
 class AuthenticationApiTests(unittest.TestCase):
